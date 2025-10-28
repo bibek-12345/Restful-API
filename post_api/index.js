@@ -3,10 +3,14 @@ const app = express();
 const port = 8080;
 const path = require('path');
 const { v4: uuidv4 } = require('uuid');
+const methodOverride = require('method-override');
+
 
 //using middleware for parsing the data send through form submition
 app.use(express.urlencoded({extended:true}));
 
+// override with POST having ?_method=DELETE
+app.use(methodOverride('_method'))
 
 //views engine
 app.set('view engine', 'ejs');
@@ -62,9 +66,28 @@ app.get("/posts/:id",(req,res) => {
    res.render("show.ejs", {post}); //here is post which we got based on id
 })
 
+//patch route
+app.patch("/posts/:id",(req,res)=>{
+   let { id } = req.params;
+   let newContent = req.body.content; //value of content inside req.body
+   let post = posts.find((p) => id === p.id);  //finding out the post to update
+   post.content = newContent; //we rest the post.content with newContent
+   console.log(post);
+   res.redirect("/posts");
+});
+
+//Edit Route
+app.get("/posts/:id/edit",(req,res)=>{
+   let { id } = req.params;
+   let post = posts.find((p) => id === p.id);
+   console.log(post);
+   res.render("edit.ejs",{post});
+})
+
 //listen to a server"
 app.listen(port, ()=>{
    console.log(`server is running at port ${port}`); 
 });
+
 
 
