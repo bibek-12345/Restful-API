@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const port = 8080;
 const path = require('path');
+const { v4: uuidv4 } = require('uuid');
 
 //using middleware for parsing the data send through form submition
 app.use(express.urlencoded({extended:true}));
@@ -17,17 +18,17 @@ app.use(express.static(path.join(__dirname, "/public")));
 // create array to store data
 let posts = [
     {
-        id : "1a",
+        id : uuidv4(),
         username : "lambtonollege",
         content : "I love coding"
     },
     {
-        id : "2b",
+        id : uuidv4(),
         username : "Bibek",
         content : "Hard work is important to achieve success"
     },
     {
-        id : "3c",
+        id : uuidv4(),
         username : "Rahul",
         content : "I got my first internship"
     },
@@ -46,7 +47,8 @@ app.get("/posts/new", (req,res)=> {
 //post/display the filledup form after submition (path of page which appears after form submition)
 app.post("/posts", (req,res)=>{
    let {username, content} = req.body; //giving variable name to a data getting in req.body(form data)
-   posts.push({username, content}); //adding/pushing the username and content to an array named as posts
+   let id = uuidv4();
+   posts.push({ id, username, content}); //adding/pushing the username and content to an array named as posts
    res.redirect("/posts"); //by default it send get request
 });
 
