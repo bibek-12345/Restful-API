@@ -3,9 +3,6 @@ const app = express();
 const port = 8080;
 const path = require('path');
 
-//using middleware for parsing the data send through form submition
-app.use(express.urlencoded({extended:true}));
-
 // path for views(ejs)
 app.set("view engine","ejs");
 app.set("views", path.join(__dirname, "/views"));
