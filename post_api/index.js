@@ -18,23 +18,26 @@ app.use(express.static(path.join(__dirname, "/public")));
 // create array to store data
 let posts = [
     {
+      //  id : "a",
         id : uuidv4(),
         username : "lambtonollege",
         content : "I love coding"
     },
     {
+      //  id : "b",
         id : uuidv4(),
         username : "Bibek",
         content : "Hard work is important to achieve success"
     },
     {
+      //   id : "c",
         id : uuidv4(),
         username : "Rahul",
         content : "I got my first internship"
     },
 ];
 
-//get data(all post path) main page path
+//get data(all post path) main page path (path to display main page)
 app.get("/posts",(req,res)=>{
    res.render("index.ejs",{posts});
 });
@@ -54,8 +57,8 @@ app.post("/posts", (req,res)=>{
 
 //route to view the individual post with the help of specific id 
 app.get("/posts/:id",(req,res) => {
-   let {id} = req.params;
-   let post = posts.find((p) => id === p.id); //check id match
+   let {id} = req.params; //this retrives id 
+   let post = posts.find((p) => id === p.id); //search post inside array with the help of id and return wholde data inside that id
    res.render("show.ejs", {post}); //here is post which we got based on id
 })
 
