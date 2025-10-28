@@ -17,14 +17,17 @@ app.use(express.static(path.join(__dirname, "/public")));
 // create array to store data
 let posts = [
     {
+        id : "1a",
         username : "lambtonollege",
         content : "I love coding"
     },
     {
+        id : "2b",
         username : "Bibek",
         content : "Hard work is important to achieve success"
     },
     {
+        id : "3c",
         username : "Rahul",
         content : "I got my first internship"
     },
@@ -46,6 +49,13 @@ app.post("/posts", (req,res)=>{
    posts.push({username, content}); //adding/pushing the username and content to an array named as posts
    res.redirect("/posts"); //by default it send get request
 });
+
+//route to view the individual post with the help of specific id 
+app.get("/posts/:id",(req,res) => {
+   let {id} = req.params;
+   let post = posts.find((p) => id === p.id); //check id match
+   res.render("show.ejs", {post}); //here is post which we got based on id
+})
 
 //listen to a server"
 app.listen(port, ()=>{
